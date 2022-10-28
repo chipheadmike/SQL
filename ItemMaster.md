@@ -1,6 +1,12 @@
 ItemMaster
 
-Normal Item Master Pull
+## Grabbing Item Master Data
+
+| File | STSTYL00 |
+| ---- | -------- |
+|      |          |
+
+### Normal Item Master Pull
 
 ```sql
 SELECT 'RNO' AS Warehouse,STCO AS Company,STDIV AS Division,CASE
@@ -37,7 +43,7 @@ WHERE STCO='2780' ORDER BY 5;
 
 ```
 
-Special Client Version
+### Special Client Version
 
 ```sql
 SELECT 'HMP' AS Warehouse,STCO AS Company,STDIV AS Division,CASE
@@ -71,5 +77,14 @@ WHEN STITMX ='HAZ' THEN 'Y' ELSE 'N' END AS isHazardous,
 STHTS AS harm,STSLT4 AS OneLO
 FROM WM370BASD.STSTYL00 LEFT JOIN WM370BASD.CQSTYL00 ON (STSTYL||STSSFX||STCOLR||STCSFX)=(CQSTYL||CQSSFX||CQCOLR||CQCSFX)
 WHERE STCO='2102' AND substr(STSTYL,1,4) IN ('QANI','R4WZ','H3B4','QWH4','WPGO') ORDER BY 5;
+```
+
+### Missing Item Dimensions
+
+```sql
+SELECT DISTINCT (STSTYL||STSSFX||STCOLR||STCSFX) AS Sku FROM RM370BASD.STSTYL00 JOIN RM370BASD.IDCASE00 ON 
+(STSTYL||STSSFX||STCOLR||STCSFX)=(IDSTYL||IDSSFX||IDCOLR||IDCSFX) WHERE 
+(STCDIM=0 OR STCDM2=0 OR STCDM3=0 OR STCSLN=0 OR STCSWD=0 OR STCSHT=0 OR STUNVL=0 OR STCSVL=0) AND 
+STCO='2760' ORDER BY 1;
 ```
 
